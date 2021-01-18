@@ -7,13 +7,16 @@ provider:
   lambdaHashingVersion: 20201221
   region: eu-west-2
   profile: serverless
+  apiGateway:
+    shouldStartNameWithService: true
 package:
-  artifact: target/hello-dev.jar
+  artifact: target/carbon-api-dev.jar
+
 
 functions:
   carbon-api:
     handler: com.thinktech.Handler
     events:
       - http:
-          path: calculatecarbon
+          path: initialcarbon
           method: get
