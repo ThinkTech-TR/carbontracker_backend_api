@@ -1,8 +1,10 @@
-package com.serverless;
+package com.thinktech;
 
 import java.util.Collections;
 import java.util.Map;
 
+import com.thinktech.model.CarbonFootprint;
+import com.thinktech.model.CarbonFootprintResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,11 +18,20 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
 		LOG.info("received: {}", input);
-		Response responseBody = new Response("Hello TechReturners", input);
+
+		CarbonFootprint averageFootprint = new CarbonFootprint(2.4,
+				1.7, 0.25, 0.25, 1.1, 3.2, 1.7,
+				2.55);
+
+		CarbonFootprint userFootprint = new CarbonFootprint(2.2,
+				1.4, 0.25, 0.25, 1.1, 2.2, 1.7,
+				2.55);
+
+		CarbonFootprintResult result = new CarbonFootprintResult(userFootprint, averageFootprint);
+
 		return ApiGatewayResponse.builder()
 				.setStatusCode(200)
-				.setObjectBody(responseBody)
-				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & serverless"))
+				.setObjectBody(result)
 				.build();
 	}
 }

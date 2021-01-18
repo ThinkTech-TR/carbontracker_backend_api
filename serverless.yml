@@ -12,7 +12,7 @@ package:
 
 functions:
   carbon-api:
-    handler: com.serverless.Handler
+    handler: com.thinktech.Handler
     events:
       - http:
           path: calculatecarbon
