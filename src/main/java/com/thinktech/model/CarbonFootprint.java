@@ -13,7 +13,7 @@ public class CarbonFootprint {
     private double food;
     private double publicServices;
     private double otherConsumption;
-    private double total;
+    private double totalCarbon;
     private FootprintType footprintType;
 
     public CarbonFootprint(double housing, double car, double bus,
@@ -30,7 +30,7 @@ public class CarbonFootprint {
         this.publicServices = publicServices;
         this.otherConsumption = otherConsumption;
         this.footprintType = footprintType;
-        this.total = calculateTotal();
+        this.totalCarbon = calculateTotal();
     }
 
     public CarbonFootprint(double housing, double car, double bus,
@@ -41,14 +41,22 @@ public class CarbonFootprint {
     }
 
     public double calculateTotal() {
-        return this.housing + this.car +
-                this.bus + this.train + this.flights +
-                this.food + this.publicServices
+        double num = this.housing + this.car + this.bus + this.train +
+                this.flights + this.food + this.publicServices
                 + this.otherConsumption;
+       return Math.round(num*1000.0) / 1000.0;
     }
 
     public FootprintType getFootprintType() {
         return footprintType;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public double getTotalCarbon() {
+        return totalCarbon;
     }
 
     public double getHousing() {
@@ -57,10 +65,6 @@ public class CarbonFootprint {
 
     public double getCar() {
         return car;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
     public double getBus() {
@@ -85,9 +89,5 @@ public class CarbonFootprint {
 
     public double getOtherConsumption() {
         return otherConsumption;
-    }
-
-    public double getTotal() {
-        return total;
     }
 }

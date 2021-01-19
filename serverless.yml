@@ -14,9 +14,15 @@ package:
 
 
 functions:
-  carbon-api:
-    handler: com.thinktech.Handler
+  get-initial-carbon-api:
+    handler: com.thinktech.GetInitialCarbonHandler
     events:
       - http:
           path: initialcarbon
+          method: get
+  get-tracking-carbon-api:
+    handler: com.thinktech.GetTrackingCarbonHandler
+    events:
+      - http:
+          path: /users/{userId}/trackingcarbon
           method: get
