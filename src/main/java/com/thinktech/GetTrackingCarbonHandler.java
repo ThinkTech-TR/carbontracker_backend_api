@@ -39,9 +39,9 @@ public class GetTrackingCarbonHandler implements RequestHandler<APIGatewayProxyR
             items1.add(busJourney);
             CarbonForDate carbon1 = new CarbonForDate(dateFirst, items1);
             ArrayList<CarbonItem> items2 = new ArrayList<>();
-            items1.add(veganDiet);
-            items1.add(housing);
-            items1.add(trainJourney);
+            items2.add(veganDiet);
+            items2.add(housing);
+            items2.add(trainJourney);
             CarbonForDate carbon2 = new CarbonForDate(dateSecond, items2);
             carbonForDate.add(carbon1);
             carbonForDate.add(carbon2);
