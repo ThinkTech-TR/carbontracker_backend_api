@@ -26,3 +26,9 @@ functions:
       - http:
           path: /users/{userId}/trackingcarbon
           method: get
+  add-user-carbon-api:
+    handler: com.thinktech.AddUserCarbonHandler
+    events:
+      - http:
+          path: /users/{userId}/adduser
+          method: post

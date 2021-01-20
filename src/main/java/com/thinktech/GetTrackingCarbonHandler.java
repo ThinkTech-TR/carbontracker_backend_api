@@ -7,6 +7,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinktech.model.*;
+import com.thinktech.model.enums.CarbonSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,10 +30,10 @@ public class GetTrackingCarbonHandler implements RequestHandler<APIGatewayProxyR
         LocalDate dateSecond= LocalDate.of(2021, 1, 19);
 
         if (userId.equals("abc123")){
-            CarbonItem veganDiet = new CarbonItem(0, 3, CarbonSource.Food, "Vegan");
-            CarbonItem housing = new CarbonItem(4, CarbonSource.Housing);
-            CarbonItem busJourney = new CarbonItem(5, 0.5, CarbonSource.Bus, "");
-            CarbonItem trainJourney = new CarbonItem(50, 7.2, CarbonSource.Train, "");
+            CarbonItem veganDiet = new CarbonItem(0, 3, CarbonSource.DIET, "Vegan");
+            CarbonItem housing = new CarbonItem(4, CarbonSource.HOUSING);
+            CarbonItem busJourney = new CarbonItem(5, 0.5, CarbonSource.BUS, "");
+            CarbonItem trainJourney = new CarbonItem(50, 7.2, CarbonSource.TRAIN, "");
             ArrayList<CarbonItem> items1 = new ArrayList<>();
             items1.add(veganDiet);
             items1.add(housing);
@@ -46,9 +47,9 @@ public class GetTrackingCarbonHandler implements RequestHandler<APIGatewayProxyR
             carbonForDate.add(carbon1);
             carbonForDate.add(carbon2);
         } else {
-            CarbonItem meatDiet = new CarbonItem(0, 3, CarbonSource.Food, "Meat");
-            CarbonItem housing = new CarbonItem(5.3, CarbonSource.Housing);
-            CarbonItem car = new CarbonItem(20, 2.5, CarbonSource.Car, "");
+            CarbonItem meatDiet = new CarbonItem(0, 3, CarbonSource.DIET, "Meat");
+            CarbonItem housing = new CarbonItem(5.3, CarbonSource.HOUSING);
+            CarbonItem car = new CarbonItem(20, 2.5, CarbonSource.CAR, "");
             ArrayList<CarbonItem> items = new ArrayList<>();
             items.add(meatDiet);
             items.add(housing);
