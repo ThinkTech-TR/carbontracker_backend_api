@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class GetTrackingCarbonHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
     {
 
-        private static final Logger LOG = LogManager.getLogger(GetInitialCarbonHandler.class);
+        private static final Logger LOG = LogManager.getLogger(CalculateInitialCarbonHandler.class);
 
         @Override
         public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {

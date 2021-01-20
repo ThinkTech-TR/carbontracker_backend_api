@@ -1,6 +1,7 @@
 package com.thinktech.model;
 
 import com.thinktech.model.enums.CarbonSource;
+import com.thinktech.service.CarbonUtilities;
 
 public class CarbonItem {
     private double mileage;
@@ -27,8 +28,8 @@ public class CarbonItem {
         return carbonEquivalent;
     }
 
-    public CarbonSource getCarbonSource() {
-        return carbonSource;
+    public String getCarbonSource() {
+        return CarbonUtilities.ConvertUpperCaseToCamelCase(carbonSource.toString());
     }
 
     public String getDescription() {

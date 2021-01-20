@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 public class AddUserCarbonHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    private static final Logger LOG = LogManager.getLogger(GetInitialCarbonHandler.class);
+    private static final Logger LOG = LogManager.getLogger(CalculateInitialCarbonHandler.class);
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {

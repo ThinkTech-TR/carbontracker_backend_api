@@ -2,7 +2,7 @@ package com.thinktech.model;
 
 public class CarbonFootprint {
 
-    public enum FootprintType {Yearly, Ytd, Mtd}
+    public enum FootprintType {YEARLY, YTD, MTD}
 
     private String userId;
     private double housing;
@@ -37,7 +37,7 @@ public class CarbonFootprint {
                            double train, double flights, double food,
                            double publicServices, double otherConsumption) {
         this(housing, car, bus, train, flights, food, publicServices, otherConsumption,
-                "", FootprintType.Yearly);
+                "", FootprintType.YEARLY);
     }
 
     public double calculateTotal() {

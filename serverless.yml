@@ -14,12 +14,12 @@ package:
 
 
 functions:
-  get-initial-carbon-api:
-    handler: com.thinktech.GetInitialCarbonHandler
+  calc-initial-carbon-api:
+    handler: com.thinktech.CalculateInitialCarbonHandler
     events:
       - http:
           path: initialcarbon
-          method: get
+          method: post
   get-tracking-carbon-api:
     handler: com.thinktech.GetTrackingCarbonHandler
     events:
