@@ -1,3 +1,3 @@
 package com.thinktech.model.enums;
 
-public enum HouseType { Detached, SemiDetatched, EndTerrace, MidTerrace, Bungalow, ConvertedFlat, PurposeBuildFlat }
+public enum HouseType { DETACHED, SEMI_DETATCHED, END_TERRACE, MID_TERRACE, BUNGALOW, CONVERTED_FLAT, PURPOSE_BUILT_FLAT }
