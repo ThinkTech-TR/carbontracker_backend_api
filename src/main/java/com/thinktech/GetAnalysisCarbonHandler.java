@@ -11,7 +11,7 @@ import com.thinktech.model.enums.CarbonSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class GetUserCarbonHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
+public class GetAnalysisCarbonHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
     {
         private static final Logger LOG = LogManager.getLogger(CalculateInitialCarbonHandler.class);
 
@@ -21,16 +21,17 @@ public class GetUserCarbonHandler implements RequestHandler<APIGatewayProxyReque
 
             String userId = request.getPathParameters().get("userId");
 
-
             APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
             response.setStatusCode(200);
             ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                String responseBody = objectMapper.writeValueAsString(carbonForDate);
-                response.setBody(responseBody);
+            response.setBody("Hello");
+           /* try {
+               String responseBody = objectMapper.writeValueAsString(carbonForDate);
+               response.setBody(responseBody);
             }
             catch (JsonProcessingException e) {
                 LOG.error("Unable to convert result to JSON", e);
-            }
+            }*/
             return response;
+        }
 }

@@ -1,12 +1,16 @@
 package com.thinktech.model;
 
+import com.thinktech.CalculateInitialCarbonHandler;
 import com.thinktech.model.enums.CarUsage;
 import com.thinktech.model.enums.Diet;
 import com.thinktech.model.enums.HouseType;
 import com.thinktech.model.enums.UserCategory;
 import com.thinktech.service.CarbonUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Questionnaire {
+
    private UserCategory userCategory;
    private Diet diet;
    private CarUsage carUsage;
