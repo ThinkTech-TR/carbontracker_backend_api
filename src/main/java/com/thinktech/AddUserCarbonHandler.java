@@ -6,7 +6,9 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thinktech.model.Questionnaire;
+import com.thinktech.model.domain.Questionnaire;
+import com.thinktech.model.assemblers.QuestionnaireAssembler;
+import com.thinktech.model.dtos.QuestionnaireDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +30,8 @@ public class AddUserCarbonHandler implements RequestHandler<APIGatewayProxyReque
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            Questionnaire questionnaire = objectMapper.readValue(requestBody, Questionnaire.class);
+            QuestionnaireDto questionnaireDto = objectMapper.readValue(requestBody, QuestionnaireDto.class);
+            Questionnaire questionnaire = QuestionnaireAssembler.Assemble(questionnaireDto);
             LOG.debug("House Type:" + questionnaire.getHouseType());
             String responseBody = "Added new user with id " + userId;
             response.setBody(responseBody);

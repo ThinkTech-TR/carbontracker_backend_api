@@ -1,4 +1,4 @@
-package com.thinktech.model;
+package com.thinktech.model.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

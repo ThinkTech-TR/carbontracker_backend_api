@@ -1,7 +1,7 @@
 package com.thinktech.service;
 
-import com.thinktech.model.CarbonFootprint;
-import com.thinktech.model.Questionnaire;
+import com.thinktech.model.domain.CarbonFootprint;
+import com.thinktech.model.domain.Questionnaire;
 import com.thinktech.model.enums.HouseType;
 
 public class CalculateInitialCarbon {

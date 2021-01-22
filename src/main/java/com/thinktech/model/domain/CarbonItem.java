@@ -1,9 +1,10 @@
-package com.thinktech.model;
+package com.thinktech.model.domain;
 
 import com.thinktech.model.enums.CarbonSource;
 import com.thinktech.service.CarbonUtilities;
 
 public class CarbonItem {
+
     private double mileage;
     private double carbonEquivalent;
     private CarbonSource carbonSource;

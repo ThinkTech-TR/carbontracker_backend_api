@@ -1,4 +1,4 @@
-package com.thinktech.model;
+package com.thinktech.model.domain;
 
 public class CarbonFootprint {
 
@@ -10,14 +10,14 @@ public class CarbonFootprint {
     private double bus;
     private double train;
     private double flights;
-    private double food;
+    private double diet;
     private double publicServices;
     private double otherConsumption;
     private double totalCarbon;
     private FootprintType footprintType;
 
     public CarbonFootprint(double housing, double car, double bus,
-                           double train, double flights, double food,
+                           double train, double flights, double diet,
                            double publicServices, double otherConsumption,
                            String userId, FootprintType footprintType) {
         this.userId = userId;
@@ -26,7 +26,7 @@ public class CarbonFootprint {
         this.bus = bus;
         this.train = train;
         this.flights = flights;
-        this.food = food;
+        this.diet = diet;
         this.publicServices = publicServices;
         this.otherConsumption = otherConsumption;
         this.footprintType = footprintType;
@@ -34,15 +34,15 @@ public class CarbonFootprint {
     }
 
     public CarbonFootprint(double housing, double car, double bus,
-                           double train, double flights, double food,
+                           double train, double flights, double diet,
                            double publicServices, double otherConsumption) {
-        this(housing, car, bus, train, flights, food, publicServices, otherConsumption,
+        this(housing, car, bus, train, flights, diet, publicServices, otherConsumption,
                 "", FootprintType.YEARLY);
     }
 
     public double calculateTotal() {
         double num = this.housing + this.car + this.bus + this.train +
-                this.flights + this.food + this.publicServices
+                this.flights + this.diet + this.publicServices
                 + this.otherConsumption;
        return Math.round(num*1000.0) / 1000.0;
     }
@@ -79,8 +79,8 @@ public class CarbonFootprint {
         return flights;
     }
 
-    public double getFood() {
-        return food;
+    public double getDiet() {
+        return diet;
     }
 
     public double getPublicServices() {
