@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.DriverManager;
 
 public class AddUserCarbonHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
@@ -33,6 +34,9 @@ public class AddUserCarbonHandler implements RequestHandler<APIGatewayProxyReque
             QuestionnaireDto questionnaireDto = objectMapper.readValue(requestBody, QuestionnaireDto.class);
             Questionnaire questionnaire = QuestionnaireAssembler.Assemble(questionnaireDto);
             LOG.debug("House Type:" + questionnaire.getHouseType());
+
+
+
             String responseBody = "Added new user with id " + userId;
             response.setBody(responseBody);
         }

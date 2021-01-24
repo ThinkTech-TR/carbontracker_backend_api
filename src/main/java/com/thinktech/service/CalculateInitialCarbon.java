@@ -17,19 +17,22 @@ public class CalculateInitialCarbon {
     private static final double AVG_OTHER_CONSUMPTION = 2550;
 
     private Questionnaire questionnaire;
+    private CarbonDataProvider carbonDataProvider;
 
-    public CalculateInitialCarbon(Questionnaire questionnaire) {
+    public CalculateInitialCarbon(Questionnaire questionnaire, CarbonDataProvider carbonDataProvider) {
         this.questionnaire = questionnaire;
+        this.carbonDataProvider = carbonDataProvider;
     }
 
-    public CarbonFootprint Calculate() {
+    public CarbonFootprint Calculate() throws Exception {
         // ToDo estimate carbon for housing, car and food based on questionnaire
 
         double housingCarbon = CalculateHousing();
+        double carCarbon = CalculateCar();
 
         return new CarbonFootprint(
                 housingCarbon,
-                1400,
+                carCarbon,
                 AVG_BUS,
                 AVG_TRAIN,
                 AVG_FLIGHTS,
@@ -57,6 +60,11 @@ public class CalculateInitialCarbon {
             return 2500;
         }
         return 2200;
+    }
+
+    private double CalculateCar() throws Exception {
+       double carCarbonEquivalentPerMileKg = this.carbonDataProvider.GetCarbonForCarType(this.questionnaire.getCarUsage());
+      return carCarbonEquivalentPerMileKg * this.questionnaire.getCarMileageMiles();
     }
 
 

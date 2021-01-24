@@ -12,6 +12,7 @@ import com.thinktech.model.dtos.CarbonFootprintDto;
 import com.thinktech.model.dtos.CarbonFootprintResultDto;
 import com.thinktech.model.dtos.QuestionnaireDto;
 import com.thinktech.service.CalculateInitialCarbon;
+import com.thinktech.service.CarbonDataProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,6 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 		String requestBody = request.getBody();
 
 		APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-		response.setStatusCode(200);
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			// Read request
@@ -39,16 +39,25 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 			LOG.debug(questionnaire.getHouseType());
 
 			// Calculate response
-			CalculateInitialCarbon calculator = new CalculateInitialCarbon(questionnaire);
-			CarbonFootprint userFootprint = calculator.Calculate();
-			CarbonFootprint averageFootprint = CalculateInitialCarbon.CalculateAverage();
+			CarbonDataProvider carbonDataProvider = new CarbonDataProvider();
+			CalculateInitialCarbon calculator = new CalculateInitialCarbon(questionnaire, carbonDataProvider);
+			String responseBody = "Unable to calculate initial carbon footprint";
+			try {
+				CarbonFootprint userFootprint = calculator.Calculate();
+				CarbonFootprint averageFootprint = CalculateInitialCarbon.CalculateAverage();
 
-			// Create response
-			CarbonFootprintResultDto result = new CarbonFootprintResultDto();
-			result.setUserFootprint(CarbonFootprintAssembler.Disassemble(userFootprint));
-			result.setAverageFootprint(CarbonFootprintAssembler.Disassemble(averageFootprint));
+				// Create response
+				CarbonFootprintResultDto result = new CarbonFootprintResultDto();
+				result.setUserFootprint(CarbonFootprintAssembler.Disassemble(userFootprint));
+				result.setAverageFootprint(CarbonFootprintAssembler.Disassemble(averageFootprint));
+				responseBody = objectMapper.writeValueAsString(result);
+				response.setStatusCode(200);
 
-			String responseBody = objectMapper.writeValueAsString(result);
+			} catch (Exception e){
+				LOG.error("Error calculating user initial carbon footprint", e);
+				response.setStatusCode(500);
+			}
+
 			response.setBody(responseBody);
 		}
 		catch (JsonProcessingException e) {
