@@ -1,14 +1,9 @@
-package com.thinktech.service;
-
+package com.thinktech.service.database;
 
 import com.thinktech.model.enums.CarUsage;
+import com.thinktech.service.CarbonUtilities;
 
-import java.sql.*;
-
-public class CarbonDataProvider {
-    private Connection connection = null;
-    private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
+public class InitialCarbonDataProvider extends CarbonDataProvider {
 
     public double GetCarbonForCarType(CarUsage carUsage) throws Exception {
         double carbon = 0.0;
@@ -34,30 +29,6 @@ public class CarbonDataProvider {
             CloseConnection();
         }
         return carbon;
-    }
-
-    private Connection OpenConnection() throws ClassNotFoundException, SQLException {
-        String connectionString = String.format("jdbc:mysql://%s/%s?user=%s&password=%s",
-                System.getenv("DB_HOST"),
-                System.getenv("DB_NAME"),
-                System.getenv("DB_USER"),
-                System.getenv("DB_PASSWORD"));
-        Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection(connectionString);
-    }
-
-    private void CloseConnection() throws SQLException {
-        if (resultSet != null) {
-            resultSet.close();
-        }
-
-        if (preparedStatement != null) {
-            preparedStatement.close();
-        }
-
-        if (connection != null) {
-            connection.close();
-        }
     }
 
 

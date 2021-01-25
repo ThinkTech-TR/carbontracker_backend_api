@@ -3,6 +3,8 @@ package com.thinktech.service;
 import com.thinktech.model.domain.CarbonFootprint;
 import com.thinktech.model.domain.Questionnaire;
 import com.thinktech.model.enums.HouseType;
+import com.thinktech.service.database.CarbonDataProvider;
+import com.thinktech.service.database.InitialCarbonDataProvider;
 
 public class CalculateInitialCarbon {
 
@@ -17,11 +19,11 @@ public class CalculateInitialCarbon {
     private static final double AVG_OTHER_CONSUMPTION = 2550;
 
     private Questionnaire questionnaire;
-    private CarbonDataProvider carbonDataProvider;
+    private InitialCarbonDataProvider initialCarbonDataProvider;
 
-    public CalculateInitialCarbon(Questionnaire questionnaire, CarbonDataProvider carbonDataProvider) {
+    public CalculateInitialCarbon(Questionnaire questionnaire, InitialCarbonDataProvider carbonDataProvider) {
         this.questionnaire = questionnaire;
-        this.carbonDataProvider = carbonDataProvider;
+        this.initialCarbonDataProvider = carbonDataProvider;
     }
 
     public CarbonFootprint Calculate() throws Exception {
@@ -63,7 +65,7 @@ public class CalculateInitialCarbon {
     }
 
     private double CalculateCar() throws Exception {
-       double carCarbonEquivalentPerMileKg = this.carbonDataProvider.GetCarbonForCarType(this.questionnaire.getCarUsage());
+       double carCarbonEquivalentPerMileKg = this.initialCarbonDataProvider.GetCarbonForCarType(this.questionnaire.getCarUsage());
       return carCarbonEquivalentPerMileKg * this.questionnaire.getCarMileageMiles();
     }
 

@@ -8,11 +8,10 @@ import com.thinktech.model.assemblers.CarbonFootprintAssembler;
 import com.thinktech.model.domain.CarbonFootprint;
 import com.thinktech.model.domain.Questionnaire;
 import com.thinktech.model.assemblers.QuestionnaireAssembler;
-import com.thinktech.model.dtos.CarbonFootprintDto;
 import com.thinktech.model.dtos.CarbonFootprintResultDto;
 import com.thinktech.model.dtos.QuestionnaireDto;
 import com.thinktech.service.CalculateInitialCarbon;
-import com.thinktech.service.CarbonDataProvider;
+import com.thinktech.service.database.InitialCarbonDataProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,8 +38,8 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 			LOG.debug(questionnaire.getHouseType());
 
 			// Calculate response
-			CarbonDataProvider carbonDataProvider = new CarbonDataProvider();
-			CalculateInitialCarbon calculator = new CalculateInitialCarbon(questionnaire, carbonDataProvider);
+			InitialCarbonDataProvider dataProvider = new InitialCarbonDataProvider();
+			CalculateInitialCarbon calculator = new CalculateInitialCarbon(questionnaire, dataProvider);
 			String responseBody = "Unable to calculate initial carbon footprint";
 			try {
 				CarbonFootprint userFootprint = calculator.Calculate();
