@@ -36,3 +36,9 @@ functions:
       - http:
           path: /users/{userId}/adduser
           method: post
+  get-tracking-carbon-for-month-api:
+    handler: com.thinktech.GetTrackingCarbonForMonthHandler
+    events:
+      - http:
+          path: /trackingcarbonformonth
+          method: get
