@@ -36,3 +36,10 @@ functions:
       - http:
           path: /users/{userId}/adduser
           method: post
+  get-analysis-carbon-api:
+    handler: com.thinktech.GetAnalysisCarbonHandler
+    events:
+      - http:
+          path: /users/{userId}/analysis
+          method: get
+
