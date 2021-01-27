@@ -40,7 +40,7 @@ functions:
     handler: com.thinktech.GetTrackingCarbonForMonthHandler
     events:
       - http:
-          path: /trackingcarbonformonth
+          path: /user/{userId}/forDate/{finishDate}/trackingcarbonformonth
           method: get
   get-analysis-carbon-api:
     handler: com.thinktech.GetAnalysisCarbonHandler

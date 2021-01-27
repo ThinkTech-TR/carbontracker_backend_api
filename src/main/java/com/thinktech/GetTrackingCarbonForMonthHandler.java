@@ -25,14 +25,14 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
         public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
         LOG.info("received request");
 
-        //String userId = request.getPathParameters().get("userId");
+        String userId = request.getPathParameters().get("userId");
 
-        DateTimeFormatter formatter_1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        //LocalDate finishDate = LocalDate.parse(request.getPathParameters().get("forDate"), formatter_1);
+        DateTimeFormatter formatter_1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate finishDate = LocalDate.parse(request.getPathParameters().get("finishDate"), formatter_1);
 
 
         //String result = java.net.URLDecoder.decode(request.getPath(), "UTF-8");
-        LocalDate finishDate = LocalDate.parse("26/01/2021", formatter_1);
+
         int year = finishDate.getYear();
         int month = finishDate.getMonthValue();
         int dayOfMonth = 1;
