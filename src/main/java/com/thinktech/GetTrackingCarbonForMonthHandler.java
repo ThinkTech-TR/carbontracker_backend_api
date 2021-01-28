@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
@@ -176,7 +177,8 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
             finally {
                 closeConnection();
             }
-        //toDo sort journeys by date
+        //sort journeys by date
+        journeys.sort(Comparator.comparing(DataForTrackingPage::getTrackingDate));
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         response.setStatusCode(200);
