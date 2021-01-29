@@ -24,6 +24,7 @@ functions:
       - http:
           path: initialcarbon
           method: post
+          cors: true
   get-tracking-carbon-api:
     handler: com.thinktech.GetTrackingCarbonHandler
     events:

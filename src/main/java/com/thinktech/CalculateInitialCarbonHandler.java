@@ -4,11 +4,11 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thinktech.model.assemblers.CarbonFootprintAssembler;
-import com.thinktech.model.domain.CarbonFootprint;
+import com.thinktech.model.assemblers.CarbonItemsWithAverageAssembler;
+import com.thinktech.model.domain.CarbonItemWithAverage;
 import com.thinktech.model.domain.Questionnaire;
 import com.thinktech.model.assemblers.QuestionnaireAssembler;
-import com.thinktech.model.dtos.CarbonFootprintResultDto;
+import com.thinktech.model.dtos.CarbonItemWithAverageDto;
 import com.thinktech.model.dtos.QuestionnaireDto;
 import com.thinktech.service.CalculateInitialCarbon;
 import com.thinktech.service.database.InitialCarbonDataProvider;
@@ -19,6 +19,9 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
@@ -42,15 +45,16 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 			CalculateInitialCarbon calculator = new CalculateInitialCarbon(questionnaire, dataProvider);
 			String responseBody = "Unable to calculate initial carbon footprint";
 			try {
-				CarbonFootprint userFootprint = calculator.Calculate();
-				CarbonFootprint averageFootprint = CalculateInitialCarbon.CalculateAverage();
+				List<CarbonItemWithAverage> carbonItems = calculator.Calculate();
 
 				// Create response
-				CarbonFootprintResultDto result = new CarbonFootprintResultDto();
-				result.setUserFootprint(CarbonFootprintAssembler.Disassemble(userFootprint));
-				result.setAverageFootprint(CarbonFootprintAssembler.Disassemble(averageFootprint));
+				List<CarbonItemWithAverageDto> result = CarbonItemsWithAverageAssembler.Disassemble(carbonItems);
 				responseBody = objectMapper.writeValueAsString(result);
 				response.setStatusCode(200);
+				Map<String, String > headers = new HashMap<>();
+				headers.put("Access-Control-Allow-Origin", "*");
+				headers.put("Access-Control-Allow-Credentials", "true");
+				response.setHeaders(headers);
 
 			} catch (Exception e){
 				LOG.error("Error calculating user initial carbon footprint", e);
