@@ -16,9 +16,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
     {
@@ -178,10 +176,14 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                 closeConnection();
             }
         //sort journeys by date
-        journeys.sort(Comparator.comparing(DataForTrackingPage::getTrackingDate));
+        journeys.sort(Comparator.comparing(DataForTrackingPage::getTrackingDate).reversed());
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         response.setStatusCode(200);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Access-Control-Allow-Origin", "*");
+        response.setHeaders(headers);
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String responseBody = objectMapper.writeValueAsString(journeys);
