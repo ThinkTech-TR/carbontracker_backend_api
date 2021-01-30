@@ -44,6 +44,10 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 			InitialCarbonDataProvider dataProvider = new InitialCarbonDataProvider();
 			CalculateInitialCarbon calculator = new CalculateInitialCarbon(questionnaire, dataProvider);
 			String responseBody = "Unable to calculate initial carbon footprint";
+			Map<String, String > headers = new HashMap<>();
+			headers.put("Access-Control-Allow-Origin", "*");
+			headers.put("Access-Control-Allow-Credentials", "true");
+			response.setHeaders(headers);
 			try {
 				List<CarbonItemWithAverage> carbonItems = calculator.Calculate();
 
@@ -51,10 +55,6 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 				List<CarbonItemWithAverageDto> result = CarbonItemsWithAverageAssembler.Disassemble(carbonItems);
 				responseBody = objectMapper.writeValueAsString(result);
 				response.setStatusCode(200);
-				Map<String, String > headers = new HashMap<>();
-				headers.put("Access-Control-Allow-Origin", "*");
-				headers.put("Access-Control-Allow-Credentials", "true");
-				response.setHeaders(headers);
 
 			} catch (Exception e){
 				LOG.error("Error calculating user initial carbon footprint", e);
