@@ -54,4 +54,24 @@ public class QuestionnaireAssembler {
         }
         throw new IllegalArgumentException(String.format("Cannot convert %s to HouseAge", houseAge));
     }
+
+    public static String DisassembleHouseAge(HouseAge houseAge){
+        switch (houseAge) {
+            case PRE_1919 :
+                return "pre1919";
+            case FROM_1919_TO_44:
+                return "1919-44";
+            case FROM_1945_TO_64:
+                return "1945-64";
+            case FROM_1965_TO_83:
+                return "1965-83";
+            case FROM_1983_TO_92:
+                return "1983-92";
+            case FROM_1993_TO_99:
+                return "1993-99";
+            case POST_1999:
+                return "post1999";
+        }
+        throw new IllegalArgumentException(String.format("Cannot convert HouseAge %s to String", houseAge));
+    }
 }

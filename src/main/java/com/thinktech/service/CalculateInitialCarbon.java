@@ -52,16 +52,13 @@ public class CalculateInitialCarbon {
         return carbonItems;
     }
 
-    private double CalculateHousing(){
-        // TODO Replace with values from DB
-        if (this.questionnaire.getHouseType() == HouseType.DETACHED){
-            return 2500;
-        }
-        return 2200;
+    private double CalculateHousing() throws Exception{
+        double housingCarbon = this.initialCarbonDataProvider.GetCarbonForHousing(this.questionnaire.getHouseAge(), this.questionnaire.getHouseType());
+        return housingCarbon / this.questionnaire.getNumberInHousehold();
     }
 
     private double CalculateCar() throws Exception {
-       double carCarbonEquivalentPerMileKg = this.initialCarbonDataProvider.GetCarbonForCarType(this.questionnaire.getCarUsage());
+      double carCarbonEquivalentPerMileKg = this.initialCarbonDataProvider.GetCarbonForCarType(this.questionnaire.getCarUsage());
       return carCarbonEquivalentPerMileKg * this.questionnaire.getCarMileageMiles();
     }
 

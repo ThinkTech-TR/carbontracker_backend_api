@@ -34,6 +34,16 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 
 		APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
 		ObjectMapper objectMapper = new ObjectMapper();
+
+		// Set default values for response assuming an error
+		Map<String, String > headers = new HashMap<>();
+		headers.put("Access-Control-Allow-Origin", "*");
+		headers.put("Access-Control-Allow-Credentials", "true");
+		response.setHeaders(headers);
+		String responseBody = "Unable to calculate initial carbon footprint";
+		response.setBody(responseBody);
+		response.setStatusCode(500);
+
 		try {
 			// Read request
 			QuestionnaireDto questionnaireDto = objectMapper.readValue(requestBody, QuestionnaireDto.class);
@@ -43,11 +53,7 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 			// Calculate response
 			InitialCarbonDataProvider dataProvider = new InitialCarbonDataProvider();
 			CalculateInitialCarbon calculator = new CalculateInitialCarbon(questionnaire, dataProvider);
-			String responseBody = "Unable to calculate initial carbon footprint";
-			Map<String, String > headers = new HashMap<>();
-			headers.put("Access-Control-Allow-Origin", "*");
-			headers.put("Access-Control-Allow-Credentials", "true");
-			response.setHeaders(headers);
+
 			try {
 				List<CarbonItemWithAverage> carbonItems = calculator.Calculate();
 
@@ -58,7 +64,6 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 
 			} catch (Exception e){
 				LOG.error("Error calculating user initial carbon footprint", e);
-				response.setStatusCode(500);
 			}
 
 			response.setBody(responseBody);
@@ -68,6 +73,9 @@ public class CalculateInitialCarbonHandler implements RequestHandler<APIGatewayP
 		}
 		catch (IOException e) {
 			LOG.error("Unable to convert input from JSON", e);
+		}
+		catch (Exception e) {
+			LOG.error("Error processing request", e);
 		}
 		return response;
 	}
