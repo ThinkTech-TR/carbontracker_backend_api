@@ -31,6 +31,12 @@ functions:
       - http:
           path: /users/{userId}/trackingcarbon
           method: get
+  check-user-carbon-api:
+    handler: com.thinktech.CheckUserCarbonHandler
+    events:
+      - http:
+          path: /users/{userId}/checkuser
+          method: get
   add-user-carbon-api:
     handler: com.thinktech.AddUserCarbonHandler
     events:

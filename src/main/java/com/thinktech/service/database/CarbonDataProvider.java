@@ -5,6 +5,7 @@ import java.sql.*;
 public abstract class CarbonDataProvider {
     protected Connection connection = null;
     protected PreparedStatement preparedStatement = null;
+    protected CallableStatement callableStatement = null;
     protected ResultSet resultSet = null;
 
     protected Connection OpenConnection() throws SQLException {
@@ -23,6 +24,10 @@ public abstract class CarbonDataProvider {
 
         if (preparedStatement != null) {
             preparedStatement.close();
+        }
+
+        if (callableStatement != null) {
+            callableStatement.close();
         }
 
         if (connection != null) {
