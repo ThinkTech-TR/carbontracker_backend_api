@@ -20,7 +20,7 @@ import java.util.*;
 
 public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
     {
-        private static final Logger LOG = LogManager.getLogger(CalculateInitialCarbonHandler.class);
+        private static final Logger LOG = LogManager.getLogger(GetTrackingCarbonForMonthHandler.class);
         private Connection connection = null;
         private PreparedStatement preparedStatement = null;
         private ResultSet resultSet = null;
