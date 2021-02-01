@@ -14,6 +14,8 @@ public class DataForTrackingPage {
     private int idTrackRecord;
     private int idJourney;
 
+    public DataForTrackingPage() {}
+
     public DataForTrackingPage(int userId, int trackingItemId, String trackingItemName, int distance, double emission, boolean changeable, String trackingDate, int idTrackRecord, int idJourney) {
         this.userId = userId;
         this.trackingItemId = trackingItemId;
@@ -60,5 +62,9 @@ public class DataForTrackingPage {
 
     public int getIdJourney() {
         return idJourney;
+    }
+
+    public void setIdJourney(int idJourney) {
+        this.idJourney = idJourney;
     }
 }
