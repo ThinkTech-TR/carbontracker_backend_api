@@ -67,4 +67,8 @@ public class DataForTrackingPage {
     public void setIdJourney(int idJourney) {
         this.idJourney = idJourney;
     }
+
+    public void setEmission(double emission) {
+        this.emission = emission;
+    }
 }

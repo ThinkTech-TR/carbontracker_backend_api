@@ -69,6 +69,7 @@ public class AddJourneyHandler implements RequestHandler<APIGatewayProxyRequestE
                 closeConnection();
             }
             //toDo calculate Carbon
+            journey.setEmission(0.8);
             //insert to table Journey
             try {
                 Class.forName("com.mysql.jdbc.Driver");
