@@ -8,23 +8,27 @@ import java.sql.CallableStatement;
 
 public class UserDataProvider extends CarbonDataProvider {
 
-    public void AddUser(String userId, Questionnaire questionnaire) throws Exception {
+    public void AddUpdateUser(String userId, Questionnaire questionnaire) throws Exception {
         try {
             connection = this.OpenConnection();
 
+            String userCategory = CarbonUtilities.ConvertUpperCaseToCamelCase(questionnaire.getUserCategory().toString());
             String diet = CarbonUtilities.ConvertUpperCaseToCamelCase(questionnaire.getDiet().toString());
             String carUsage = CarbonUtilities.ConvertUpperCaseToCamelCase(questionnaire.getCarUsage().toString());
             String housingType = CarbonUtilities.ConvertUpperCaseToCamelCase(questionnaire.getHouseType().toString());
             String housingAge = QuestionnaireAssembler.DisassembleHouseAge(questionnaire.getHouseAge());
 
-            callableStatement = connection.prepareCall("{CALL ADD_USER(?,?,?,?,?,?,?,?)}");
+            callableStatement = connection.prepareCall("{CALL ADD_UPDATE_USER(?,?,?,?,?,?,?,?)}");
             callableStatement.setString(1, userId);
-            callableStatement.setString(2, diet);
-            callableStatement.setString(3, carUsage);
-            callableStatement.setInt(4, questionnaire.getCarMileageMiles());
-            callableStatement.setInt(5, questionnaire.getNumberInHousehold());
-            callableStatement.setString(6, housingType);
-            callableStatement.setString(7, housingAge);
+            callableStatement.setString(2, userCategory);
+            callableStatement.setString(3, diet);
+            callableStatement.setString(4, carUsage);
+            callableStatement.setInt(5, questionnaire.getCarMileageMiles());
+            callableStatement.setInt(6, questionnaire.getNumberInHousehold());
+            callableStatement.setString(7, housingType);
+            callableStatement.setString(8, housingAge);
+
+            callableStatement.executeUpdate();
 
         } catch (Exception e) {
             String message = String.format("Unable to add user to database %s", userId);

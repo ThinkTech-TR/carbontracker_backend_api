@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddUserCarbonHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class AddUpdateUserCarbonHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    private static final Logger LOG = LogManager.getLogger(CalculateInitialCarbonHandler.class);
+    private static final Logger LOG = LogManager.getLogger(AddUpdateUserCarbonHandler.class);
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
@@ -44,8 +44,8 @@ public class AddUserCarbonHandler implements RequestHandler<APIGatewayProxyReque
 
             try {
                 UserDataProvider provider = new UserDataProvider();
-                provider.AddUser(userId, questionnaire);
-                responseBody = "Added new user with id " + userId;
+                provider.AddUpdateUser(userId, questionnaire);
+                responseBody = "Added or updated user with id " + userId;
                 response.setBody(responseBody);
                 response.setStatusCode(200);
             }
