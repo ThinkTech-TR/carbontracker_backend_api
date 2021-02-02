@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class DataForTrackingPage {
-    private int userId;
+    //private int userId;
     private int trackingItemId;
     private String trackingItemName;
     private int distance;
@@ -16,8 +16,8 @@ public class DataForTrackingPage {
 
     public DataForTrackingPage() {}
 
-    public DataForTrackingPage(int userId, int trackingItemId, String trackingItemName, int distance, double emission, boolean changeable, String trackingDate, int idTrackRecord, int idJourney) {
-        this.userId = userId;
+    public DataForTrackingPage(/*int userId,*/ int trackingItemId, String trackingItemName, int distance, double emission, boolean changeable, String trackingDate, int idTrackRecord, int idJourney) {
+        //this.userId = userId;
         this.trackingItemId = trackingItemId;
         this.trackingItemName = trackingItemName;
         this.distance = distance;
@@ -28,9 +28,9 @@ public class DataForTrackingPage {
         this.idJourney = idJourney;
     }
 
-    public int getUserId() {
+    /*public int getUserId() {
         return userId;
-    }
+    }*/
 
     public int getTrackingItemId() {
         return trackingItemId;

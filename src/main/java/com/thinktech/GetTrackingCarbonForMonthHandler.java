@@ -45,53 +45,10 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
         java.sql.Date sqlStartDate = java.sql.Date.valueOf(startDate);
         long amountOfDaysInPeriod = ChronoUnit.DAYS.between(startDate, finishDate) + 1;
 
-        //get data from table Journey
+        //get data from table Questionaire
         List<DataForTrackingPage> journeys = new ArrayList<>();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s/%s?user=%s&password=%s",
-                        System.getenv("DB_HOST"),
-                        System.getenv("DB_NAME"),
-                        System.getenv("DB_USER"),
-                        System.getenv("DB_PASSWORD")));
-            preparedStatement = connection.prepareStatement("SELECT j.distance_miles, " +
-                        " j.journey_date, " +
-                        " j.journey_id, " +
-                        " j.transport_id, " +
-                        " t.transport_type, " +
-                        " j.user_id " +
-                        "FROM carbon.journey as j, carbon.transport t " +
-                        "WHERE j.user_id = ? " +
-                        "and j.journey_date <= ? " +
-                        "and j.journey_date >= ? " +
-                        "and t.transport_id = j.transport_id " +
-                        "ORDER BY j.journey_date");
-            preparedStatement.setInt(1, Integer.parseInt(userId));
-            preparedStatement.setDate(2,sqlFinishDate);
-            preparedStatement.setDate(3,sqlStartDate);
-            resultSet = preparedStatement.executeQuery();
-
-            int counter = 1;
-            while (resultSet.next()) {
-                //toDo calculate emission
-                double emission = 3.5;
-                 DataForTrackingPage journey = new DataForTrackingPage(resultSet.getInt("user_id"),
-                                                                        resultSet.getInt("transport_id"),
-                                                                        resultSet.getNString("transport_type"),
-                                                                        resultSet.getInt("distance_miles"),
-                                                                        emission,
-                                                                        true,
-                                                                        resultSet.getString("journey_date"),
-                                                                        counter,
-                                                                        resultSet.getInt("journey_id"));
-                 journeys.add(journey);
-                 counter ++;
-                }
-            resultSet.close();
-            preparedStatement.close();
-            connection.close();
-
-            //get data from table Questionaire
             connection = DriverManager.getConnection(String.format("jdbc:mysql://%s/%s?user=%s&password=%s",
                     System.getenv("DB_HOST"),
                     System.getenv("DB_NAME"),
@@ -106,10 +63,14 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                     "        q.questionaire_id, " +
                     "        q.user_id, " +
                     "        q.userCategory " +
-                    "FROM carbon.questionaire as q " +
-                    "WHERE q.user_id = ?");
-            preparedStatement.setInt(1, Integer.parseInt(userId));
+                    "FROM carbon.questionaire as q, carbon.users u " +
+                    "WHERE q.user_id = u.user_id "+
+                    "       and u.auth_user_id = ?");
+            preparedStatement.setString(1, userId);
             resultSet = preparedStatement.executeQuery();
+
+
+            int counter = 1;
             while (resultSet.next()) {
                 String strTrackingNameHousing = "";
                 double emissionHousing = 0;
@@ -131,19 +92,19 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                 }
                 counter ++;
                 for (int i = 0; i < amountOfDaysInPeriod; i++){
-                    DataForTrackingPage house = new DataForTrackingPage(resultSet.getInt("user_id"),
-                                                             0,
-                                                              strTrackingNameHousing,
-                                                              0,
-                                                              emissionHousing,
-                                                             false,
-                                                              startDate.plusDays(i).toString() ,
-                                                              counter,
-                                                              0);
+                    DataForTrackingPage house = new DataForTrackingPage(//resultSet.getInt("user_id"),
+                            0,
+                            strTrackingNameHousing,
+                            0,
+                            emissionHousing,
+                            false,
+                            startDate.plusDays(i).toString() ,
+                            counter,
+                            0);
                     journeys.add(house);
                     counter ++;
                     if (emissionCar != 0) {
-                        DataForTrackingPage car = new DataForTrackingPage(resultSet.getInt("user_id"),
+                        DataForTrackingPage car = new DataForTrackingPage(//resultSet.getInt("user_id"),
                                 0,
                                 strTrackingNameCar,
                                 0,
@@ -155,7 +116,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                         journeys.add(car);
                         counter++;
                     }
-                    DataForTrackingPage diet = new DataForTrackingPage(resultSet.getInt("user_id"),
+                    DataForTrackingPage diet = new DataForTrackingPage(//resultSet.getInt("user_id"),
                             0,
                             strTrackingNameDiet,
                             0,
@@ -167,6 +128,51 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                     journeys.add(diet);
                     counter ++;
                 }
+            }
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+
+
+            //get data from table Journey
+            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s/%s?user=%s&password=%s",
+                    System.getenv("DB_HOST"),
+                    System.getenv("DB_NAME"),
+                    System.getenv("DB_USER"),
+                    System.getenv("DB_PASSWORD")));
+            preparedStatement = connection.prepareStatement("SELECT j.distance_miles, " +
+                    " j.journey_date, " +
+                    " j.journey_id, " +
+                    " j.transport_id, " +
+                    " t.transport_type, " +
+                    " j.user_id " +
+                    "FROM carbon.journey as j, carbon.transport t, carbon.users u  " +
+                    "WHERE j.user_id = u.user_id " +
+                    "and j.journey_date <= ? " +
+                    "and j.journey_date >= ? " +
+                    "and t.transport_id = j.transport_id " +
+                    "and u.auth_user_id = ?" +
+                    "ORDER BY j.journey_date");
+            preparedStatement.setDate(1,sqlFinishDate);
+            preparedStatement.setDate(2,sqlStartDate);
+            preparedStatement.setString(3, userId);
+            resultSet = preparedStatement.executeQuery();
+            counter ++;
+            while (resultSet.next()) {
+                //toDo calculate emission
+                double emission = 3.5;
+                DataForTrackingPage journey = new DataForTrackingPage(//resultSet.getInt("user_id"),
+                        resultSet.getInt("transport_id"),
+                        resultSet.getNString("transport_type"),
+                        resultSet.getInt("distance_miles"),
+                        emission,
+                        true,
+                        resultSet.getString("journey_date"),
+                        counter,
+                        resultSet.getInt("journey_id"));
+                journeys.add(journey);
+                counter ++;
             }
             }
             catch (Exception e) {
