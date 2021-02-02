@@ -40,9 +40,9 @@ public class CheckUserCarbonHandler implements RequestHandler<APIGatewayProxyReq
 
             // Create response
             if (userExists) {
-                responseBody = String.format("User %s exists", userId);
+                responseBody = "true";
             } else {
-                responseBody = String.format("User %s does not exist", userId);
+                responseBody = "false";
             }
             response.setStatusCode(200);
 

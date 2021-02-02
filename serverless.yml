@@ -37,12 +37,14 @@ functions:
       - http:
           path: /users/{userId}/checkuser
           method: get
+          cors: true
   add-update-user-carbon-api:
     handler: com.thinktech.AddUpdateUserCarbonHandler
     events:
       - http:
           path: /users/{userId}/addupdateuser
           method: post
+          cors: true
   get-tracking-carbon-for-month-api:
     handler: com.thinktech.GetTrackingCarbonForMonthHandler
     events:

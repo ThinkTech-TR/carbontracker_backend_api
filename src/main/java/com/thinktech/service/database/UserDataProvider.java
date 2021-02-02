@@ -2,6 +2,7 @@ package com.thinktech.service.database;
 
 import com.thinktech.model.assemblers.QuestionnaireAssembler;
 import com.thinktech.model.domain.Questionnaire;
+import com.thinktech.model.enums.CarUsage;
 import com.thinktech.service.CarbonUtilities;
 
 import java.sql.CallableStatement;
@@ -22,6 +23,11 @@ public class UserDataProvider extends CarbonDataProvider {
             callableStatement.setString(1, userId);
             callableStatement.setString(2, userCategory);
             callableStatement.setString(3, diet);
+            if (questionnaire.getCarUsage() == CarUsage.NO_CAR) {
+                callableStatement.setNull(4, java.sql.Types.NVARCHAR);
+            } else {
+                callableStatement.setString(4, carUsage);
+            }
             callableStatement.setString(4, carUsage);
             callableStatement.setInt(5, questionnaire.getCarMileageMiles());
             callableStatement.setInt(6, questionnaire.getNumberInHousehold());
