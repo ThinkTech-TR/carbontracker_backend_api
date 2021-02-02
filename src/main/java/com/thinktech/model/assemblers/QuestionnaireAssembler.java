@@ -43,8 +43,8 @@ public class QuestionnaireAssembler {
                 return HouseAge.FROM_1919_TO_44;
             case "1945-64":
                 return HouseAge.FROM_1945_TO_64;
-           case "1965-83":
-               return HouseAge.FROM_1965_TO_83;
+           case "1965-82":
+               return HouseAge.FROM_1965_TO_82;
            case "1983-92":
                return HouseAge.FROM_1983_TO_92;
            case "1993-99":
@@ -63,8 +63,8 @@ public class QuestionnaireAssembler {
                 return "1919-44";
             case FROM_1945_TO_64:
                 return "1945-64";
-            case FROM_1965_TO_83:
-                return "1965-83";
+            case FROM_1965_TO_82:
+                return "1965-82";
             case FROM_1983_TO_92:
                 return "1983-92";
             case FROM_1993_TO_99:
