@@ -17,7 +17,7 @@ public class TrackingDataProvider extends CarbonDataProvider {
             callableStatement.executeUpdate();
 
             journey.setIdJourney(callableStatement.getInt("p_journey_id"));
-            System.out.println(journey);
+            //System.out.println(journey);
 
         } catch (Exception e) {
             String message = String.format("Unable to add user to database %s", journey.getAuthUserId());
@@ -26,4 +26,24 @@ public class TrackingDataProvider extends CarbonDataProvider {
             CloseConnection();
         }
     }
+    public void UpdateJourney(DataForTrackingPage journey) throws Exception {
+        try {
+            connection = this.OpenConnection();
+
+            callableStatement = connection.prepareCall("{CALL UPDATE_JOURNEY(?, ?)}");
+            callableStatement.setInt("p_distance_miles", journey.getDistance());
+            callableStatement.setInt("p_journey_id", journey.getIdJourney());
+            System.out.println(callableStatement);
+            callableStatement.executeUpdate();
+
+            //System.out.println(journey);
+
+        } catch (Exception e) {
+            String message = String.format("Unable to add user to database %s", journey.getAuthUserId());
+            throw new Exception(message, e);
+        } finally {
+            CloseConnection();
+        }
+    }
+
 }

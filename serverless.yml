@@ -59,6 +59,13 @@ functions:
           path: /user/{userId}/forDate/{finishDate}/trackingcarbonformonth
           method: post
           cors: true
+  update-journey-api:
+    handler: com.thinktech.UpdateJourneyHandler
+    events:
+      - http:
+          path: /updatejourney
+          method: put
+          cors: true
   get-analysis-carbon-api:
     handler: com.thinktech.GetAnalysisCarbonHandler
     events:
