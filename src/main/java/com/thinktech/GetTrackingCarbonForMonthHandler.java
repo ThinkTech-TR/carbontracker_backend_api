@@ -61,7 +61,8 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                     "        q.houseType, " +
                     "        q.numberInHousehold, " +
                     "        q.questionaire_id, " +
-                    "        q.user_id, " +
+                    //"        q.user_id, " +
+                    "        u.auth_user_id, " +
                     "        q.userCategory " +
                     "FROM carbon.questionaire as q, carbon.users u " +
                     "WHERE q.user_id = u.user_id "+
@@ -92,7 +93,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                 }
                 counter ++;
                 for (int i = 0; i < amountOfDaysInPeriod; i++){
-                    DataForTrackingPage house = new DataForTrackingPage(//resultSet.getInt("user_id"),
+                    DataForTrackingPage house = new DataForTrackingPage(
                             0,
                             strTrackingNameHousing,
                             0,
@@ -100,7 +101,8 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                             false,
                             startDate.plusDays(i).toString() ,
                             counter,
-                            0);
+                            0,
+                            resultSet.getString("auth_user_id"));
                     journeys.add(house);
                     counter ++;
                     if (emissionCar != 0) {
@@ -112,7 +114,8 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                                 false,
                                 startDate.plusDays(i).toString(),
                                 counter,
-                                0);
+                                0,
+                                resultSet.getString("auth_user_id"));
                         journeys.add(car);
                         counter++;
                     }
@@ -124,7 +127,8 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                             false,
                             startDate.plusDays(i).toString() ,
                             counter,
-                            0);
+                            0,
+                            resultSet.getString("auth_user_id"));
                     journeys.add(diet);
                     counter ++;
                 }
@@ -146,7 +150,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                     " j.journey_id, " +
                     " j.transport_id, " +
                     " t.transport_type, " +
-                    " j.user_id " +
+                    " u.auth_user_id " +
                     "FROM carbon.journey as j, carbon.transport t, carbon.users u  " +
                     "WHERE j.user_id = u.user_id " +
                     "and j.journey_date <= ? " +
@@ -170,7 +174,8 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                         true,
                         resultSet.getString("journey_date"),
                         counter,
-                        resultSet.getInt("journey_id"));
+                        resultSet.getInt("journey_id"),
+                        resultSet.getString("auth_user_id"));
                 journeys.add(journey);
                 counter ++;
             }

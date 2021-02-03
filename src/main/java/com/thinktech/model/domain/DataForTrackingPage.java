@@ -13,10 +13,12 @@ public class DataForTrackingPage {
     private String trackingDate;
     private int idTrackRecord;
     private int idJourney;
-
+    private String authUserId;
     public DataForTrackingPage() {}
 
-    public DataForTrackingPage(/*int userId,*/ int trackingItemId, String trackingItemName, int distance, double emission, boolean changeable, String trackingDate, int idTrackRecord, int idJourney) {
+    public DataForTrackingPage(/*int userId,*/ int trackingItemId, String trackingItemName, int distance,
+                                               double emission, boolean changeable, String trackingDate,
+                                               int idTrackRecord, int idJourney, String authUserId) {
         //this.userId = userId;
         this.trackingItemId = trackingItemId;
         this.trackingItemName = trackingItemName;
@@ -26,6 +28,7 @@ public class DataForTrackingPage {
         this.trackingDate = trackingDate;
         this.idTrackRecord = idTrackRecord;
         this.idJourney = idJourney;
+        this.authUserId = authUserId;
     }
 
     /*public int getUserId() {
@@ -63,6 +66,8 @@ public class DataForTrackingPage {
     public int getIdJourney() {
         return idJourney;
     }
+
+    public String getAuthUserId() {return authUserId;}
 
     public void setIdJourney(int idJourney) {
         this.idJourney = idJourney;
