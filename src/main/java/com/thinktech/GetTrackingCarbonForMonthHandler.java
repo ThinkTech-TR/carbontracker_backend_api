@@ -61,7 +61,6 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                     "        q.houseType, " +
                     "        q.numberInHousehold, " +
                     "        q.questionaire_id, " +
-                    //"        q.user_id, " +
                     "        u.auth_user_id, " +
                     "        q.userCategory " +
                     "FROM carbon.questionaire as q, carbon.users u " +
@@ -106,12 +105,11 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                     journeys.add(house);
                     counter ++;
                     if (emissionCar != 0) {
-                        DataForTrackingPage car = new DataForTrackingPage(//resultSet.getInt("user_id"),
-                                0,
+                        DataForTrackingPage car = new DataForTrackingPage(0,
                                 strTrackingNameCar,
                                 0,
                                 emissionCar,
-                                false,
+                                true,
                                 startDate.plusDays(i).toString(),
                                 counter,
                                 0,
@@ -119,8 +117,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                         journeys.add(car);
                         counter++;
                     }
-                    DataForTrackingPage diet = new DataForTrackingPage(//resultSet.getInt("user_id"),
-                            0,
+                    DataForTrackingPage diet = new DataForTrackingPage(0,
                             strTrackingNameDiet,
                             0,
                             emissionDiet,
@@ -166,8 +163,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
             while (resultSet.next()) {
                 //toDo calculate emission
                 double emission = 3.5;
-                DataForTrackingPage journey = new DataForTrackingPage(//resultSet.getInt("user_id"),
-                        resultSet.getInt("transport_id"),
+                DataForTrackingPage journey = new DataForTrackingPage(resultSet.getInt("transport_id"),
                         resultSet.getNString("transport_type"),
                         resultSet.getInt("distance_miles"),
                         emission,
