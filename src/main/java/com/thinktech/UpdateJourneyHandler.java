@@ -12,8 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +22,8 @@ public class UpdateJourneyHandler implements RequestHandler<APIGatewayProxyReque
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
         LOG.info("received request");
+
+        //String userId = request.getPathParameters().get("userId");
 
         String requestBody = request.getBody();
 
@@ -39,8 +39,10 @@ public class UpdateJourneyHandler implements RequestHandler<APIGatewayProxyReque
 
         try {
             DataForTrackingPage journey = objMapper.readValue(requestBody, DataForTrackingPage.class);
+            System.out.println(journey);
             try {
                 TrackingDataProvider provider = new TrackingDataProvider();
+
                 provider.UpdateJourney(journey);
                 responseBody = objMapper.writeValueAsString(journey);
                 response.setBody(responseBody);
