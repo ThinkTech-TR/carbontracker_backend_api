@@ -45,7 +45,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
         java.sql.Date sqlStartDate = java.sql.Date.valueOf(startDate);
         long amountOfDaysInPeriod = ChronoUnit.DAYS.between(startDate, finishDate) + 1;
 
-        //get data from table Questionaire
+        //get data from table Questionnaire
         List<DataForTrackingPage> journeys = new ArrayList<>();
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -76,6 +76,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                 double emissionHousing = 0;
                 String strTrackingNameCar = "";
                 double emissionCar = 0;
+                int mileage = 0;
                 String strTrackingNameDiet = "";
                 double emissionDiet = 0;
                 if (resultSet.getString("houseType") != null) {
@@ -83,7 +84,8 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                     emissionHousing = 4.0;
                 }
                 if (resultSet.getString("carUsage") != null) {
-                    strTrackingNameCar = "Car";
+                    strTrackingNameCar = "car";
+                    mileage = Math.round(resultSet.getInt("carMileage")/365);
                     emissionCar = 2.0;
                 }
                 if (resultSet.getString("diet") != null) {
@@ -107,7 +109,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                     if (emissionCar != 0) {
                         DataForTrackingPage car = new DataForTrackingPage(0,
                                 strTrackingNameCar,
-                                0,
+                                mileage,
                                 emissionCar,
                                 true,
                                 startDate.plusDays(i).toString(),
@@ -184,6 +186,9 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
             }
         //sort journeys by date
         journeys.sort(Comparator.comparing(DataForTrackingPage::getTrackingDate).reversed());
+
+        //toDo delete car-journey (based on Questionnaire)  if there is a real journey based on Journey table for specific date
+
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         response.setStatusCode(200);
