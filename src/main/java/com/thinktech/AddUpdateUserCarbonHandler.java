@@ -34,8 +34,7 @@ public class AddUpdateUserCarbonHandler implements RequestHandler<APIGatewayProx
         headers.put("Access-Control-Allow-Origin", "*");
         headers.put("Access-Control-Allow-Credentials", "true");
         response.setHeaders(headers);
-        String responseBody = "Unable to add new user";
-        response.setBody(responseBody);
+        response.setBody(String.valueOf(false));
         response.setStatusCode(500);
 
         try {
@@ -44,9 +43,8 @@ public class AddUpdateUserCarbonHandler implements RequestHandler<APIGatewayProx
 
             try {
                 UserDataProvider provider = new UserDataProvider();
-                provider.AddUpdateUser(userId, questionnaire);
-                responseBody = "Added or updated user with id " + userId;
-                response.setBody(responseBody);
+                boolean added = provider.AddUpdateUser(userId, questionnaire);
+                response.setBody(String.valueOf(added));
                 response.setStatusCode(200);
             }
             catch (Exception e){

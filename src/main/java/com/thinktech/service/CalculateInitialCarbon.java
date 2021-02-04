@@ -1,14 +1,10 @@
 package com.thinktech.service;
 
-import com.thinktech.model.domain.CarbonFootprint;
 import com.thinktech.model.domain.CarbonItemWithAverage;
 import com.thinktech.model.domain.Questionnaire;
-import com.thinktech.model.enums.HouseType;
-import com.thinktech.service.database.CarbonDataProvider;
 import com.thinktech.service.database.InitialCarbonDataProvider;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CalculateInitialCarbon {
 

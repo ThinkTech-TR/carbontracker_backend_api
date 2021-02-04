@@ -9,7 +9,7 @@ import java.sql.CallableStatement;
 
 public class UserDataProvider extends CarbonDataProvider {
 
-    public void AddUpdateUser(String userId, Questionnaire questionnaire) throws Exception {
+    public boolean AddUpdateUser(String userId, Questionnaire questionnaire) throws Exception {
         try {
             connection = this.OpenConnection();
 
@@ -34,7 +34,8 @@ public class UserDataProvider extends CarbonDataProvider {
             callableStatement.setString(7, housingType);
             callableStatement.setString(8, housingAge);
 
-            callableStatement.executeUpdate();
+            int rowsUpdated = callableStatement.executeUpdate();
+            return rowsUpdated != 0;
 
         } catch (Exception e) {
             String message = String.format("Unable to add user to database %s", userId);

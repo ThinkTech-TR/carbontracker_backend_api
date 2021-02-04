@@ -29,24 +29,15 @@ public class CheckUserCarbonHandler implements RequestHandler<APIGatewayProxyReq
         headers.put("Access-Control-Allow-Origin", "*");
         headers.put("Access-Control-Allow-Credentials", "true");
         response.setHeaders(headers);
-        String responseBody = "Unable to check user";
-        response.setBody(responseBody);
+        response.setBody(String.valueOf(false));
         response.setStatusCode(500);
 
         try {
             // Calculate response
             UserDataProvider provider = new UserDataProvider();
             boolean userExists = provider.CheckUserExists(userId);
-
-            // Create response
-            if (userExists) {
-                responseBody = "true";
-            } else {
-                responseBody = "false";
-            }
             response.setStatusCode(200);
-
-            response.setBody(responseBody);
+            response.setBody(String.valueOf(userExists));
         } catch (Exception e) {
             LOG.error("Error processing request", e);
         }

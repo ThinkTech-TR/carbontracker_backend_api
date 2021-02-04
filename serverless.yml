@@ -25,12 +25,6 @@ functions:
           path: initialcarbon
           method: post
           cors: true
-  get-tracking-carbon-api:
-    handler: com.thinktech.GetTrackingCarbonHandler
-    events:
-      - http:
-          path: /users/{userId}/trackingcarbon
-          method: get
   check-user-carbon-api:
     handler: com.thinktech.CheckUserCarbonHandler
     events:
@@ -72,4 +66,5 @@ functions:
       - http:
           path: /users/{userId}/analysis
           method: get
+          cors: true
 
