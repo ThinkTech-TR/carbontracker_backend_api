@@ -93,7 +93,7 @@ public class TrackingDataProvider extends CarbonDataProvider {
                     if (resultSet.getInt("carMileage") != 0) {
                         DataForTrackingPage car = new DataForTrackingPage(0,
                                 "Car",
-                                Math.round(100 * resultSet.getInt("carMileage") / 365) /100,
+                                Math.round(resultSet.getInt("carMileage") / 365),
                                 Math.round(100.00 * resultSet.getDouble("car_carbon_per_mile") * resultSet.getInt("carMileage") / 365) /100.00,
                                 true,
                                 startDate.plusDays(i).toString(),
@@ -151,7 +151,7 @@ public class TrackingDataProvider extends CarbonDataProvider {
             int counter = 2021;
             while (resultSet.next()) {
                 DataForTrackingPage journey = new DataForTrackingPage(resultSet.getInt("transport_id"),
-                        resultSet.getNString("transport_type"),
+                        resultSet.getString("transport_type").substring(0,1).toUpperCase() + resultSet.getString("transport_type").substring(1),
                         resultSet.getInt("distance_miles"),
                         Math.round(100.00 * resultSet.getDouble("kg_carbon_per_mile") * resultSet.getInt("distance_miles") )/ 100.00,
                         true,

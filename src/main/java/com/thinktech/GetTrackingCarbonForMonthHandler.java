@@ -54,6 +54,17 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
                 List<DataForTrackingPage> itemsFromQuestionnaire = provider.DataFromQuestionnaire(userId, amountOfDaysInPeriod, startDate);
                 List<DataForTrackingPage> itemsFromJourney = provider.DataFromJourney(userId,amountOfDaysInPeriod, sqlStartDate, sqlFinishDate);
 
+                List<DataForTrackingPage> duplicates = new ArrayList<>();
+                for (DataForTrackingPage t : itemsFromJourney){
+                    for (DataForTrackingPage q : itemsFromQuestionnaire){
+                        if (t.getTrackingItemName().equalsIgnoreCase(q.getTrackingItemName().toLowerCase()) &&
+                                t.getTrackingDate().equalsIgnoreCase(q.getTrackingDate())){
+                            duplicates.add(q);
+                        }
+                    }
+                }
+                itemsFromQuestionnaire.removeAll(duplicates);
+
                 journeys.addAll(itemsFromQuestionnaire);
                 journeys.addAll(itemsFromJourney);
             } catch (Exception e) {
@@ -61,6 +72,7 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
             }
         //sort journeys by date
         journeys.sort(Comparator.comparing(DataForTrackingPage::getTrackingDate).reversed());
+
 
         //toDo delete car-journey (based on Questionnaire)  if there is a real journey based on Journey table for specific date
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
