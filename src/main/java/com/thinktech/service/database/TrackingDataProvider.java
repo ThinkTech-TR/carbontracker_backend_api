@@ -74,6 +74,7 @@ public class TrackingDataProvider extends CarbonDataProvider {
                     "INNER join carbon.users u ON  (q.user_id = u.user_id  and u.auth_user_id = ?)");
             preparedStatement.setString(1, authUserId);
             //System.out.println(preparedStatement);
+            //System.out.println("startDate  " +startDate);
             resultSet = preparedStatement.executeQuery();
             resultSet.first();
             int counter = 1;
@@ -146,6 +147,7 @@ public class TrackingDataProvider extends CarbonDataProvider {
             preparedStatement.setDate(2,sqlStartDate);
             preparedStatement.setString(3, authUserId);
             resultSet = preparedStatement.executeQuery();
+            //System.out.println(preparedStatement);
             int counter = 2021;
             while (resultSet.next()) {
                 DataForTrackingPage journey = new DataForTrackingPage(resultSet.getInt("transport_id"),

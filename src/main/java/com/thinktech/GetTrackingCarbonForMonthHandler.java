@@ -33,17 +33,18 @@ public class GetTrackingCarbonForMonthHandler implements RequestHandler<APIGatew
 
 
         DateTimeFormatter formatter_1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate finishDate = LocalDate.parse(request.getPathParameters().get("finishDate"), formatter_1);
 
-        java.sql.Date sqlFinishDate = java.sql.Date.valueOf(finishDate);
+        LocalDate inputDate = LocalDate.parse(request.getPathParameters().get("finishDate"), formatter_1);
 
-        int year = finishDate.getYear();
-        int month = finishDate.getMonthValue();
+        java.sql.Date sqlFinishDate = java.sql.Date.valueOf(LocalDate.now());
+
+        int year = inputDate.getYear();
+        int month = inputDate.getMonthValue();
         int dayOfMonth = 1;
 
         LocalDate startDate = LocalDate.of(year, month, dayOfMonth);
         java.sql.Date sqlStartDate = java.sql.Date.valueOf(startDate);
-        long amountOfDaysInPeriod = ChronoUnit.DAYS.between(startDate, finishDate) + 1;
+        long amountOfDaysInPeriod = ChronoUnit.DAYS.between(startDate, LocalDate.now()) + 1;
 
         //get data from table Questionnaire
         List<DataForTrackingPage> journeys = new ArrayList<>();
