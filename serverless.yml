@@ -64,7 +64,7 @@ functions:
     handler: com.thinktech.GetAnalysisCarbonHandler
     events:
       - http:
-          path: /users/{finishDate}/analysis
+          path: /users/apiv1/{finishDate}/analysis
           method: get
           cors: true
 
