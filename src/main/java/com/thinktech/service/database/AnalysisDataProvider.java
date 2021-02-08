@@ -31,10 +31,10 @@ public class AnalysisDataProvider extends CarbonDataProvider {
                     "LEFT JOIN carbon.housing h ON (h.housing_age = q.houseAge and h.housing_type = q.houseType) " +
                     "LEFT JOIN carbon.diet_carbon d ON (d.diet_type = q.diet) " +
                     "INNER join carbon.users u ON  (q.user_id = u.user_id)" +
-                    "ORDER BY house_carbon_annual DESC"  +
+                    "ORDER BY house_carbon_annual DESC "  +
                     "LIMIT 5");
             //preparedStatement.setString(1, authUserId);
-            //System.out.println(preparedStatement);
+            System.out.println(preparedStatement);
             //System.out.println("startDate  " +startDate);
             resultSet = preparedStatement.executeQuery();
             resultSet.first();
@@ -95,7 +95,7 @@ public class AnalysisDataProvider extends CarbonDataProvider {
                     " j.transport_id, " +
                     " t.transport_type, " +
                     " t.kg_carbon_per_mile, " +
-                    " u.auth_user_id " +
+                    " u.auth_user_id, " +
                     " u.nickname " +
                     "FROM carbon.journey as j, carbon.transport t, carbon.users u  " +
                     "WHERE j.user_id = u.user_id " +
@@ -107,11 +107,11 @@ public class AnalysisDataProvider extends CarbonDataProvider {
                     " j.transport_id, " +
                     " t.transport_type, " +
                     " t.kg_carbon_per_mile, " +
-                    " u.auth_user_id " +
+                    " u.auth_user_id, " +
                     " u.nickname ");
             preparedStatement.setDate(1,sqlStartDate);
+            System.out.println(preparedStatement);
             resultSet = preparedStatement.executeQuery();
-            //System.out.println(preparedStatement);
             int counter = 2021;
             while (resultSet.next()) {
                 DataForAnalysisPage journey = new DataForAnalysisPage(resultSet.getInt("transport_id"),
