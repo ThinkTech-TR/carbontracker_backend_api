@@ -8,13 +8,14 @@ public class DataForAnalysisPage {
     private double emission;
     private boolean changeable;
     private String trackingDate;
+    private String nickname;
     private int idTrackRecord;
     private int idJourney;
     public DataForAnalysisPage() {}
 
     public DataForAnalysisPage(/*int userId,*/ int trackingItemId, String trackingItemName, int distance,
                                                double emission, boolean changeable, String trackingDate,
-                                               int idTrackRecord, int idJourney) {
+                                               int idTrackRecord, int idJourney, String nickname) {
         //this.userId = userId;
         this.trackingItemId = trackingItemId;
         this.trackingItemName = trackingItemName;
@@ -24,6 +25,7 @@ public class DataForAnalysisPage {
         this.trackingDate = trackingDate;
         this.idTrackRecord = idTrackRecord;
         this.idJourney = idJourney;
+        this.nickname = nickname;
     }
 
     /*public int getUserId() {
@@ -52,6 +54,9 @@ public class DataForAnalysisPage {
 
     public String getTrackingDate() {
         return trackingDate;
+    }
+    public String getNickname() {
+        return nickname;
     }
 
     public int getIdTrackRecord() {

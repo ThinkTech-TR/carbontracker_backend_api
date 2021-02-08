@@ -19,9 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class TmpHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
+public class GetAnalysisYTDHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
 {
-    private static final Logger LOG = LogManager.getLogger(TmpHandler.class);
+    private static final Logger LOG = LogManager.getLogger(GetAnalysisYTDHandler.class);
     private Connection connection = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;

@@ -68,10 +68,10 @@ functions:
           method: get
           cors: true
   get-test-api:
-    handler: com.thinktech.TmpHandler
+    handler: com.thinktech.GetAnalysisYTDHandler
     events:
       - http:
-          path: /user/{userId}/forDate/{finishDate}/tmp
+          path: /user/{userId}/forDate/{finishDate}/ytd
           method: get
           cors: true
 

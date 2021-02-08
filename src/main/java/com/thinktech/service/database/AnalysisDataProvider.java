@@ -47,7 +47,8 @@ public class AnalysisDataProvider extends CarbonDataProvider {
                             false,
                             startDate.plusDays(i).toString() ,
                             counter,
-                            0
+                            0,
+                        resultSet.getString("nickname")
                             );
                     items.add(house);
                     counter ++;
@@ -59,7 +60,8 @@ public class AnalysisDataProvider extends CarbonDataProvider {
                                 true,
                                 startDate.plusDays(i).toString(),
                                 counter,
-                                0);
+                                0,
+                                resultSet.getString("nickname"));
                         items.add(car);
                         counter++;
                     }
@@ -70,7 +72,8 @@ public class AnalysisDataProvider extends CarbonDataProvider {
                             false,
                             startDate.plusDays(i).toString() ,
                             counter,
-                            0
+                            0,
+                        resultSet.getString("nickname")
                             );
                     items.add(diet);
                     counter ++;
@@ -121,7 +124,9 @@ public class AnalysisDataProvider extends CarbonDataProvider {
                         true,
                         resultSet.getString("journey_date"),
                         counter,
-                        resultSet.getInt("journey_id"));
+                        resultSet.getInt("journey_id"),
+                        resultSet.getString("nickname")
+                            );
                 items.add(journey);
                 counter ++;
             }
