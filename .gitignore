@@ -4,6 +4,8 @@ target
 /.settings/
 .project
 .classpath
+.idea/
+carbon-api.iml
 
 # Package Files
 *.jar
