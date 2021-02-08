@@ -6,7 +6,7 @@ package com.thinktech;
         import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
         import com.fasterxml.jackson.core.JsonProcessingException;
         import com.fasterxml.jackson.databind.ObjectMapper;
-        import com.thinktech.model.domain.DataForTrackingPage;
+        import com.thinktech.model.domain.DataForAnalysisPage;
         import com.thinktech.service.database.AnalysisDataProvider;
         import org.apache.logging.log4j.LogManager;
         import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ public class GetAnalysisCarbonHandler implements RequestHandler<APIGatewayProxyR
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
         LOG.info("received request");
-        String userId = request.getPathParameters().get("userId");
+       // String userId = request.getPathParameters().get("userId");
         DateTimeFormatter formatter_1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         LocalDate inputDate = LocalDate.parse(request.getPathParameters().get("finishDate"), formatter_1);
@@ -43,16 +43,16 @@ public class GetAnalysisCarbonHandler implements RequestHandler<APIGatewayProxyR
         long amountOfDaysInPeriod = ChronoUnit.DAYS.between(startDate, LocalDate.now()) + 1;
 
         //get data from table Questionnaire
-        List<DataForTrackingPage> journeys = new ArrayList<>();
+        List<DataForAnalysisPage> journeys = new ArrayList<>();
 
         AnalysisDataProvider provider = new AnalysisDataProvider();
         try {
-            List<DataForTrackingPage> itemsFromQuestionnaire = provider.DataFromQuestionnaire(userId, amountOfDaysInPeriod, startDate);
-            List<DataForTrackingPage> itemsFromJourney = provider.DataFromJourney(userId,amountOfDaysInPeriod, sqlStartDate, sqlFinishDate);
+            List<DataForAnalysisPage> itemsFromQuestionnaire = provider.DataFromQuestionnaire(amountOfDaysInPeriod, startDate);
+            List<DataForAnalysisPage> itemsFromJourney = provider.DataFromJourney(amountOfDaysInPeriod, sqlStartDate, sqlFinishDate);
 
-            List<DataForTrackingPage> duplicates = new ArrayList<>();
-            for (DataForTrackingPage t : itemsFromJourney){
-                for (DataForTrackingPage q : itemsFromQuestionnaire){
+            List<DataForAnalysisPage> duplicates = new ArrayList<>();
+            for (DataForAnalysisPage t : itemsFromJourney){
+                for (DataForAnalysisPage q : itemsFromQuestionnaire){
                     if (t.getTrackingItemName().equalsIgnoreCase(q.getTrackingItemName().toLowerCase()) &&
                             t.getTrackingDate().equalsIgnoreCase(q.getTrackingDate())){
                         duplicates.add(q);
@@ -67,7 +67,7 @@ public class GetAnalysisCarbonHandler implements RequestHandler<APIGatewayProxyR
             LOG.error("Error processing request", e);
         }
         //sort journeys by date
-        journeys.sort(Comparator.comparing(DataForTrackingPage::getTrackingDate).reversed());
+        journeys.sort(Comparator.comparing(DataForAnalysisPage::getTrackingDate).reversed());
 
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
