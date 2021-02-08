@@ -1,6 +1,6 @@
 package com.thinktech.service.database;
 
-import com.thinktech.model.domain.DataForTrackingPage;
+import com.thinktech.model.domain.DataForAnalysisPage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.List;
 public class AnalysisDataProvider extends CarbonDataProvider {
 
 
-    public List<DataForTrackingPage> DataFromQuestionnaire (String authUserId, long amountOfDaysInPeriod, LocalDate startDate) throws Exception {
-        List<DataForTrackingPage> items = new ArrayList<>();
+    public List<DataForAnalysisPage> DataFromQuestionnaire (long amountOfDaysInPeriod, LocalDate startDate) throws Exception {
+        List<DataForAnalysisPage> items = new ArrayList<>();
         try {
             connection = this.OpenConnection();
             preparedStatement = connection.prepareStatement("SELECT q.carMileage, " +
@@ -40,54 +40,53 @@ public class AnalysisDataProvider extends CarbonDataProvider {
             resultSet.first();
             int counter = 1;
             for (int i = 0; i < amountOfDaysInPeriod; i++){
-                    DataForTrackingPage house = new DataForTrackingPage(0,
+                DataForAnalysisPage house = new DataForAnalysisPage(0,
                             "House",
                             0,
                             Math.round(100.00 * resultSet.getDouble("house_carbon_annual")/365) / 100.00,
                             false,
                             startDate.plusDays(i).toString() ,
                             counter,
-                            0,
-                            authUserId);
+                            0
+                            );
                     items.add(house);
                     counter ++;
                     if (resultSet.getInt("carMileage") != 0) {
-                        DataForTrackingPage car = new DataForTrackingPage(0,
+                        DataForAnalysisPage car = new DataForAnalysisPage(0,
                                 "Car",
                                 Math.round(resultSet.getInt("carMileage") / 365),
                                 Math.round(100.00 * resultSet.getDouble("car_carbon_per_mile") * resultSet.getInt("carMileage") / 365) /100.00,
                                 true,
                                 startDate.plusDays(i).toString(),
                                 counter,
-                                0,
-                                authUserId);
+                                0);
                         items.add(car);
                         counter++;
                     }
-                    DataForTrackingPage diet = new DataForTrackingPage(0,
+                DataForAnalysisPage diet = new DataForAnalysisPage(0,
                             "Diet",
                             0,
                             Math.round(100.00 * resultSet.getInt("diet_carbon_annual") / 365) / 100.00,
                             false,
                             startDate.plusDays(i).toString() ,
                             counter,
-                            0,
-                            authUserId);
+                            0
+                            );
                     items.add(diet);
                     counter ++;
             }
             return items;
         } catch (Exception e) {
-            String message = String.format("Unable to query database to check user %s", authUserId);
+            String message = String.format("Unable to query database to check users");
             throw new Exception(message, e);
         } finally {
             CloseConnection();
         }
     }
 
-    public List<DataForTrackingPage> DataFromJourney (String authUserId, long amountOfDaysInPeriod,
+    public List<DataForAnalysisPage> DataFromJourney (long amountOfDaysInPeriod,
                                                       java.sql.Date sqlStartDate, java.sql.Date sqlFinishDate) throws Exception {
-        List<DataForTrackingPage> items = new ArrayList<>();
+        List<DataForAnalysisPage> items = new ArrayList<>();
         try {
             connection = this.OpenConnection();
             preparedStatement = connection.prepareStatement("SELECT sum(j.distance_miles) as distance_miles, " +
@@ -115,21 +114,20 @@ public class AnalysisDataProvider extends CarbonDataProvider {
             //System.out.println(preparedStatement);
             int counter = 2021;
             while (resultSet.next()) {
-                DataForTrackingPage journey = new DataForTrackingPage(resultSet.getInt("transport_id"),
+                DataForAnalysisPage journey = new DataForAnalysisPage(resultSet.getInt("transport_id"),
                         resultSet.getString("transport_type").substring(0,1).toUpperCase() + resultSet.getString("transport_type").substring(1),
                         resultSet.getInt("distance_miles"),
                         Math.round(100.00 * resultSet.getDouble("kg_carbon_per_mile") * resultSet.getInt("distance_miles") )/ 100.00,
                         true,
                         resultSet.getString("journey_date"),
                         counter,
-                        resultSet.getInt("journey_id"),
-                        resultSet.getString("auth_user_id"));
+                        resultSet.getInt("journey_id"));
                 items.add(journey);
                 counter ++;
             }
             return items;
         } catch (Exception e) {
-            String message = String.format("Unable to query database to check user %s", authUserId);
+            String message = String.format("Unable to query database to check users");
             throw new Exception(message, e);
         } finally {
             CloseConnection();
