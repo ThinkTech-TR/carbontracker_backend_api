@@ -67,4 +67,11 @@ functions:
           path: /users/apiv1/{finishDate}/analysis
           method: get
           cors: true
+  get-test-api:
+    handler: com.thinktech.TmpHandler
+    events:
+      - http:
+          path: /user/{userId}/forDate/{finishDate}/tmp
+          method: get
+          cors: true
 

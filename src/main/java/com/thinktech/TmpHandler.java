@@ -78,11 +78,9 @@ public class TmpHandler implements RequestHandler<APIGatewayProxyRequestEvent, A
                 for (DataForTrackingPage d : journeys){
                     if (d.getTrackingItemName().equalsIgnoreCase(obj)) {
                         CO2 += d.getEmission();
-                        //System.out.println("---" + d.getTrackingItemName());
                     }
                 }
-                //System.out.println(obj + "---" + CO2);
-                DataForTrackingPage item = new DataForTrackingPage(0, obj, 0, CO2, false,sqlStartDate.toString(), 0, 0, userId );
+                DataForTrackingPage item = new DataForTrackingPage(0, obj, 0, CO2, false, sqlFinishDate.toString(), 0, 0, userId );
                 yearList.add(item);
             }
             ///////////////////////////////////
