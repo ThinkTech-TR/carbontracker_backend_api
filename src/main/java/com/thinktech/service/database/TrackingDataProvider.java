@@ -134,15 +134,15 @@ public class TrackingDataProvider extends CarbonDataProvider {
                     " j.journey_id, " +
                     " j.transport_id, " +
                     " t.transport_type, " +
-                    "t.kg_carbon_per_mile, " +
+                    "IF ((t.transport_id = 1 AND cc.car_type IS NOT NULL), cc.kg_carbon_per_mile, t.kg_carbon_per_mile) kg_carbon_per_mile, " +
                     " u.auth_user_id " +
-                    "FROM carbon.journey as j, carbon.transport t, carbon.users u  " +
-                    "WHERE j.user_id = u.user_id " +
-                    "and j.journey_date <= ? " +
-                    "and j.journey_date >= ? " +
-                    "and t.transport_id = j.transport_id " +
-                    "and u.auth_user_id = ?" +
-                    "ORDER BY j.journey_date");
+                    "FROM carbon.journey as j "+
+                    "INNER JOIN carbon.transport t ON (t.transport_id = j.transport_id "+
+                    "        and j.journey_date <= ?"+
+                    "        and j.journey_date >= ? ) "+
+                    "INNER JOIN carbon.users u ON (j.user_id = u.user_id  and u.auth_user_id = ?) "+
+                    "INNER JOIN carbon.questionaire q ON (q.user_id = u.user_id) "+
+                    "LEFT JOIN carbon.car_carbon cc ON (q.carUsage = cc.car_type)");
             preparedStatement.setDate(1,sqlFinishDate);
             preparedStatement.setDate(2,sqlStartDate);
             preparedStatement.setString(3, authUserId);
