@@ -67,7 +67,7 @@ functions:
           path: /users/apiv1/{finishDate}/analysis
           method: get
           cors: true
-  get-test-api:
+  get-analysis-ytd-api:
     handler: com.thinktech.GetAnalysisYTDHandler
     events:
       - http:
