@@ -7,7 +7,6 @@ import com.thinktech.model.enums.*;
 import com.thinktech.service.database.InitialCarbonDataProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;

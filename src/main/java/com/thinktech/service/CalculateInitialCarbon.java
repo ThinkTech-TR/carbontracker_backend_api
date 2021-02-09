@@ -41,7 +41,7 @@ public class CalculateInitialCarbon {
         carbonItems.add(new CarbonItemWithAverage("Flights", AVG_FLIGHTS, AVG_FLIGHTS));
         carbonItems.add(new CarbonItemWithAverage("Diet", dietCarbon, AVG_FOOD));
         carbonItems.add(new CarbonItemWithAverage("Public Services", AVG_PUBLIC_SERVICES, AVG_PUBLIC_SERVICES));
-        carbonItems.add(new CarbonItemWithAverage("Other Consumption", AVG_PUBLIC_SERVICES, AVG_OTHER_CONSUMPTION));
+        carbonItems.add(new CarbonItemWithAverage("Other Consumption", AVG_OTHER_CONSUMPTION, AVG_OTHER_CONSUMPTION));
 
         carbonItems.sort(CarbonItemWithAverage::compareTo);
 
